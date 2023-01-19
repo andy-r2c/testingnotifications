@@ -1,0 +1,106 @@
+.header
+  %h1.locked= graph[:name]
+  /%span.info Created by <span class="owner">#{graph[:owner]}</span> on #{graph[:created_at]}
+.well
+  %a{ :class => "details btn closed", :"data-toggle" => "collapse", :"data-target" => "#details", :href => "#" } Details
+  %a{ :class => "dashboard btn", :"data-toggle" => "collapse", :"data-target" => "#dashboard_form", :href => "#" } Add to Dashboard
+  .tools.btn-group
+    %button{ :class => "tools btn edit", :title => "edit targets" }
+      %i.icon-list
+    %button{ :class => "tools btn reset", :title => "reset view" }
+      %i.icon-fire
+    %button{ :class => "tools btn refresh", :title => "refresh graph" }
+      %i.icon-refresh
+    /%button{ :class => "tools btn gist", :title => "gist graph" }
+    /  %i.icon-camera
+    %button{ :class => "tools btn delete", :title => "delete graph", :"data-toggle" => "modal", :"data-target" => "#destroy_modal" }
+      %i.icon-trash
+  = haml :"common/_interval"
+/ Destroy graph modal
+.modal#destroy_modal{ :class => "hide fade" }
+  .modal-header
+    %button{ :class => "close", :"data-dismiss" => "modal", :"aria-hidden" => true } &times
+    %h2 Delete Graph
+  .modal-body
+    Are you <b>REALLY</b> sure you want to delete this graph?
+  .modal-footer
+    %button{ :class => "btn", :"data-dismiss" => "modal", :"aria-hidden" => true } Cancel
+    %button{ :class => "btn btn-danger delete" } Destroy
+/ Composer modal for targets
+.modal#composer_modal{ :class => "large hide" }
+  .modal-header
+    %button{ :class => "close", :"data-dismiss" => "modal", :"aria-hidden" => true } &times
+    %h2 Edit Graph Targets
+  .modal-body
+    %img#preview.span8
+    %label{ :for => "targets_editor" } Targets:
+    %textarea#targets_editor.span8
+  .modal-footer
+    %button{ :class => "btn", :"data-dismiss" => "modal", :"aria-hidden" => true } Cancel
+    %button{ :class => "targets_submit btn btn-primary" } Update Targets
+.accordion-group
+  / Graph details
+  %fieldset#details{ :class => "collapse" }
+    .info-and-description-wrapper
+      .info-wrapper
+        %table
+          %tr
+            %td
+              %label{ :for => "owner" } Owner:
+            %td
+              %span#owner
+          %tr
+            %td
+              %label{ :for => "created_at" } Created:
+            %td
+              %span#created_at
+      .description-wrapper
+        %label{ :for => "description" } Description:
+        %span{ :class => "closed", :id => "description" }
+    .tags-wrapper
+      %label{ :for => "tags" } Tags:
+      .tags
+    .settings-wrapper
+      /%label{ :for => "settings" } Advanced Settings:
+      .settings
+        .line_mode.btn-group
+          %button{ :class => "line_mode btn disabled" } Line Mode
+          %button{ :class => "line_mode btn active", :name => 1, :value => "slope" } slope
+          %button{ :class => "line_mode btn", :name => 2, :value => "staircase" } staircase
+          %button{ :class => "line_mode btn", :name => 3, :value => "connected" } connected
+        .area_mode.btn-group
+          %button{ :class => "area_mode btn disabled" } Area Mode
+          %button{ :class => "area_mode btn active", :name => 1, :value => "off" } off
+          %button{ :class => "area_mode btn", :name => 2, :value => "first" } first
+          %button{ :class => "area_mode btn", :name => 3, :value => "all" } all
+          %button{ :class => "area_mode btn", :name => 4, :value => "stacked" } stacked
+        .log_mode.btn-group
+          %button{ :class => "log_mode btn disabled" } Logarithmic Base
+          %button{ :class => "log_mode btn active", :name => 1, :value => "0" } off
+          %button{ :class => "log_mode btn", :name => 2, :value => "10" } 10
+          %button{ :class => "log_mode btn", :name => 3, :value => "2" } 2
+          %button{ :class => "log_mode btn", :name => 4, :value => "e" } e
+        .null_mode.btn-group
+          %button{ :class => "null_mode btn disabled" } Draw Nulls as Zeroes?
+          %button{ :class => "null_mode btn", :name => 1, :value => "off" } off
+          %button{ :class => "null_mode btn active", :name => 2, :value => "on" } on
+  / Forms for creating / adding-to dashboards
+  %fieldset#dashboard_form{ :class => "collapse" }
+    #dashboard_select
+      %ul
+        %li
+          %select{ :id => "dashboard_select", :name => "dashboard_select" }
+        %li
+          %button{ :class => "dashboard_submit btn btn-primary" } Add to Selected Dashboard
+    #dashboard_new
+      %form{ :id => "dashboard_new", :method => "post", :action => "/dashboards" }
+        %ul
+          %li
+            %input{ :class => "dashboard_name span3", :id => "name", :name => "name", :placeholder => "Dashboard Name" }
+          %li
+            %button{ :class => "dashboard_submit btn btn-primary", :name => "submit", :type => "submit" } Create Dashboard
+.graphs
+  .row
+%script{ :type => "text/javascript", :src => "/js/graphs.js" }
+%script{ :type => "text/javascript", :src => "/js/profile-graph.js" }
+%script{ :type => "text/javascript", :src => "/js/render-common.js" }

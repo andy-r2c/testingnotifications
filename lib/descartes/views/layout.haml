@@ -1,0 +1,56 @@
+!!! 5
+%html{ :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    - title = title || "Descartes"
+    %title= title
+    %meta{ "http-equiv" => "Content-Type", :content => "text/html;charset=utf-8" }
+    %link{ :rel => "stylesheet", :type => "text/css", :href => "/css/vendor/bootstrap.min.css" }
+    %link{ :rel => "stylesheet", :type => "text/css", :href => "/css/style.css" }
+    %script{ :type => "text/javascript", :src => "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/bootstrap.min.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/jquery.url.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/URI.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/jwerty.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/json2.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/jsonlint.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/d3.v2.min.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/rickshaw.min.js" }
+    %script{ :type => "text/javascript", :src => "/js/vendor/crypto-min.js" }
+    %script{ :type => "text/javascript", :src => "https://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/sha256.js" }
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{ :href => "/" } Descartes
+          %ul.nav
+            %li.home.active
+              %a{ :href => "/" } Home
+            %li.graphs
+              %a{ :href => "/graphs" } Graphs
+            %li.dashboards
+              %a{ :href => "/dashboards" } Dashboards
+            %li.chartroulette
+              %a{ :href => "/chartroulette" } Chartroulette
+            %li.metrics
+              %a{ :href => "/metrics" } Metrics
+
+    .container
+      :javascript
+        $(document).ready(function() {
+
+          // Highlight current active tab
+          $('.nav li.active').removeClass('active');
+          var path = location.pathname.split("/")[1] || 'home';
+          $('li.' + path).addClass('active');
+
+        });
+        var graphiteUrl = "#{ENV['GRAPHITE_URL']}";
+        var graphiteUser = "#{ENV['GRAPHITE_USER']}";
+        var graphitePass = "#{ENV['GRAPHITE_PASS']}";
+        var graphTemplate = "#{ENV['GRAPH_TEMPLATE']}";
+        var useSVG = "#{ENV['USE_SVG']}";
+        var useCatMode = "#{ENV['CAT_MODE']}";
+
+      =yield
+
+

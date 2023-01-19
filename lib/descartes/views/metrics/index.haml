@@ -1,0 +1,35 @@
+.header
+  %h1 Metrics
+.well
+  .metrics-cache-status
+    %input{ :class => "metrics-cache-status", :type => "text", :disabled => true, :placeholder => "Cache last updated at " + cache_age }
+  .tools.btn-group
+    %button{ :class => "tools btn reset", :title => "reset view" }
+      %i.icon-fire
+    %button{ :class => "tools btn refresh", :title => "refresh metrics" }
+      %i.icon-refresh
+  = haml :"common/_interval"
+.accordion-group
+  / Form for adding metrics to an existing (or new) graph
+  %fieldset#metrics_graph_form{ :class => "collapse in" }
+    #metrics_graph_select
+      %ul
+        //%li
+        //  %select{ :class => "span3", :id => "metrics_graph_select", :name => "metrics_graph_select" }
+        //    %option{ :value => "_new" } New Graph
+        %li
+          %label{ :for => "new-graph-name" }
+          %input{ :class => "new-graph-name span3", :type => "text", :disabled => true, :placeholder => "New graph name" }
+        %li
+          %button{ :class => "metrics_graph_submit btn btn-primary disabled" } Save Graph
+      %ul.search-ahead
+        %li
+          %label{ :for => "search-ahead" } Filter metrics:
+          %input{ :class => "search-ahead span4", :type => "text", :placeholder => "Enter search term" }
+    %span.graph#metrics_graph_preview.span7
+.metrics
+.loading.hidden
+  %span
+    Loading
+%script{ :type => "text/javascript", :src => "/js/list-metrics.js" }
+%script{ :type => "text/javascript", :src => "/js/render-common.js" }
